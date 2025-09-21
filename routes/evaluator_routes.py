@@ -86,3 +86,11 @@ def route_compare_multiple_resumes_to_jd(user_id, jd_id):
 @evaluator_bp.route("/compare/resume/<int:resume_id>/admin/<int:admin_id>", methods=["POST"])
 def route_compare_multiple_jds_to_resume(resume_id, admin_id):
     return compare_multiple_jds_to_resume(resume_id, admin_id)
+
+
+
+@evaluator_bp.route("/admin_jds/<int:admin_id>", methods=["GET"])
+def route_get_evaluations_by_admin_jds(admin_id):
+    return get_evaluations_by_admin_jds(admin_id)
+
+
