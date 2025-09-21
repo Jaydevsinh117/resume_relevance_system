@@ -186,6 +186,24 @@ async def compare_multiple_resumes_to_jd(user_id: int, jd_id: int):
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+
+# Add this function to evaluator_controller.py
+async def get_evaluations_by_admin_jds(admin_id: int):
+    """Get evaluations for all JDs owned by an admin"""
+    try:
+        db = load_data()
+        # Get all JDs for this admin
+        admin_jds = [j["id"] for j in db["jds"] if j["admin_id"] == admin_id]
+        # Get evaluations for these JDs
+        evals = [e for e in db["evaluations"] if e["jd_id"] in admin_jds]
+        
+        for ev in evals:
+            ev["missing_skills"] = json.loads(ev.get("missing_skills", "[]"))
+        return jsonify({"status": "success", "data": evals}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
 # --------------------------
 # 9. compare multiple jds to resume
 # --------------------------
